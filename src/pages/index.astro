@@ -16,8 +16,8 @@ const starfieldUrls = Object.values(starfieldFiles).map(
 );
 
 // Toggle this to true to enable the intro animation and hide scrollbar
-// const ENABLE_INTRO_ANIMATION = false;
-const ENABLE_INTRO_ANIMATION = true;
+const ENABLE_INTRO_ANIMATION = false;
+// const ENABLE_INTRO_ANIMATION = true;
 ---
 
 <!doctype html>
@@ -174,7 +174,7 @@ const ENABLE_INTRO_ANIMATION = true;
 						</div>
 					</div>
 					<!-- CTAs -->
-					<div class="mt-12 flex items-center gap-6">
+					<!-- <div class="mt-12 flex items-center gap-6">
 						<a
 							href="#contact"
 							class="animate-pulse-accent bg-accent-500 text-white font-display text-[0.95rem] font-black uppercase tracking-[0.15rem] px-[2.2rem] py-[1rem] transition-transform duration-200 hover:-translate-y-[2px] hover:shadow-[0_6px_20px_color-mix(in_srgb,var(--color-accent-500)_45%,transparent)] cursor-pointer"
@@ -187,7 +187,7 @@ const ENABLE_INTRO_ANIMATION = true;
 						>
 							Lihat Demo
 						</a>
-					</div>
+					</div> -->
 				</div>
 
 				<!-- Hero Mockup/Image -->
@@ -222,7 +222,7 @@ const ENABLE_INTRO_ANIMATION = true;
 					</div>
 
 					<!-- Floating Card (Make it yours) -->
-					<div
+					<!-- <div
 						class="absolute bottom-8 -right-4 w-64 bg-accent-500 border border-charcoal-black p-6 transform rotate-[3deg] shadow-[8px_8px_0_0_#111111] hover:-translate-y-1 hover:shadow-[12px_12px_0_0_#111111] transition-all duration-300"
 					>
 						<h3
@@ -236,7 +236,7 @@ const ENABLE_INTRO_ANIMATION = true;
 							Pilih dari tema tersedia atau sesuaikan dengan brand
 							identity kamu!
 						</p>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</section>
@@ -477,6 +477,14 @@ const ENABLE_INTRO_ANIMATION = true;
 						<strong>meta passive income.</strong>
 						<br />Consider us! we'll cut your research time in half.
 					</p>
+					<a
+						href="https://instagram.com/restingboothface.id"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="mt-6 w-max animate-pulse-accent bg-accent-500 text-white font-space text-[0.8rem] font-bold uppercase tracking-[0.1rem] px-[1.4rem] py-[0.6rem] transition-transform duration-200 hover:-translate-y-[2px] cursor-pointer"
+					>
+						Start Franchising &rarr;
+					</a>
 				</div>
 
 				<!-- Featured Partner -->
@@ -605,9 +613,7 @@ const ENABLE_INTRO_ANIMATION = true;
 			</p>
 		</div>
 
-		<div
-			class="grid grid-cols-1 md:grid-cols-3 gap-px bg-charcoal-black border border-charcoal-black"
-		>
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 			{
 				[
 					{
@@ -627,12 +633,12 @@ const ENABLE_INTRO_ANIMATION = true;
 						desc: "Sistem otomatis memproses pembayaran dan mencetak foto. Anda siap menerima passive income.",
 					},
 				].map((item) => (
-					<div class="bg-milky-white p-10 hover:bg-black/5 transition-colors flex flex-col justify-between min-h-[300px]">
+					<div class="group flex flex-col border border-black/15 rounded-md p-10 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.08)] justify-between min-h-[300px]">
 						<div class="font-mono text-4xl font-light text-gray-300 tracking-tighter">
 							{item.step}
 						</div>
 						<div>
-							<h3 class="font-display font-bold text-xl uppercase tracking-wide text-charcoal-black mb-3">
+							<h3 class="font-display font-bold text-xl uppercase tracking-wide text-charcoal-black mb-3 group-hover:text-accent-500 transition-colors duration-200">
 								{item.title}
 							</h3>
 							<p class="font-sans text-[0.9rem] text-charcoal-dim leading-relaxed">
@@ -693,7 +699,7 @@ const ENABLE_INTRO_ANIMATION = true;
 										</p>
 									</div>
 									<div class="text-charcoal-black opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all font-bold">
-										→
+										{/* → */}
 									</div>
 								</div>
 							))
@@ -745,7 +751,9 @@ const ENABLE_INTRO_ANIMATION = true;
 			Konsultasi Gratis. Sandbox aplikasi? bisa!
 		</p>
 		<a
-			href="#contact"
+			href="https://wa.me/6285155321113"
+			target="_blank"
+			rel="noopener noreferrer"
 			class="inline-flex items-center gap-4 animate-pulse-accent bg-accent-500 text-white font-display text-[0.95rem] font-black uppercase tracking-[0.15rem] px-10 py-5 transition-transform duration-200 hover:-translate-y-[2px] hover:shadow-[0_6px_20px_color-mix(in_srgb,var(--color-accent-500)_45%,transparent)] cursor-pointer"
 		>
 			Make It Yours
