@@ -3,59 +3,54 @@ import React, { useEffect, useRef, useState } from 'react';
 const Starfield = ({ urls }) => {
   const canvasRef = useRef(null);
   const photosRef = useRef([]);
-  const [cachedImages, setCachedImages] = useState([]);
+  const cachedImagesRef = useRef([]);
 
-  // Pre-load and cache all images to offscreen canvases for massive performance boost
+  // Pre-load and cache images progressively to offscreen canvases
   useEffect(() => {
     if (typeof window === 'undefined' || !urls || urls.length === 0) return;
 
     let isMounted = true;
     const MAX_HEIGHT = 100; // Cache resolution height (lowered for blurred optimization)
 
-    const loadAndCache = async () => {
-      const promises = urls.map(src => {
-        return new Promise(resolve => {
-          const img = new Image();
-          img.onload = () => {
-            // Create an offscreen canvas to cache the image
-            const offscreen = document.createElement('canvas');
-            // We can disable alpha for these photo canvases if they don't have transparency, boosting render speed
-            const ctx = offscreen.getContext('2d', { alpha: false });
-            
-            const targetHeight = MAX_HEIGHT;
-            const targetWidth = MAX_HEIGHT * (img.naturalWidth / img.naturalHeight);
-            
-            offscreen.width = targetWidth;
-            offscreen.height = targetHeight;
-            
-            ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
-            
-            resolve({
-              canvas: offscreen,
-              naturalWidth: targetWidth,
-              naturalHeight: targetHeight,
-              complete: true
-            });
-          };
-          img.onerror = () => resolve(null);
-          img.src = src;
+    urls.forEach(src => {
+      const img = new Image();
+      img.onload = () => {
+        if (!isMounted) return;
+        // Create an offscreen canvas to cache the image
+        const offscreen = document.createElement('canvas');
+        const ctx = offscreen.getContext('2d', { alpha: false });
+        
+        const targetHeight = MAX_HEIGHT;
+        const targetWidth = MAX_HEIGHT * (img.naturalWidth / img.naturalHeight);
+        
+        offscreen.width = targetWidth;
+        offscreen.height = targetHeight;
+        
+        ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+        
+        cachedImagesRef.current.push({
+          canvas: offscreen,
+          naturalWidth: targetWidth,
+          naturalHeight: targetHeight,
+          complete: true
         });
-      });
-
-      const results = await Promise.all(promises);
-      if (isMounted) {
-        setCachedImages(results.filter(Boolean));
-      }
-    };
-
-    loadAndCache();
+      };
+      img.src = src;
+    });
 
     return () => { isMounted = false; };
   }, [urls]);
 
   useEffect(() => {
+    // Fade out the static HTML fallback now that React has mounted the Canvas
+    const fallback = document.getElementById('starfield-fallback');
+    if (fallback) {
+      fallback.style.opacity = '0';
+      setTimeout(() => fallback.remove(), 1000); // Remove from DOM after fade finishes
+    }
+
     const canvas = canvasRef.current;
-    if (!canvas || cachedImages.length === 0) return;
+    if (!canvas) return;
     
     // Main render context
     const ctx = canvas.getContext('2d', { alpha: true });
@@ -86,18 +81,6 @@ const Starfield = ({ urls }) => {
 
     const transitionTimer = setTimeout(() => {
       isTransitioning = true;
-
-      // Exactly sync the CSS cinematic bar slide with the React tween
-      const topBar = document.getElementById('cinematic-top-bar');
-      const bottomBar = document.getElementById('cinematic-bottom-bar');
-      if (topBar) topBar.classList.add('animate-cinematic-top');
-      if (bottomBar) bottomBar.classList.add('animate-cinematic-bottom');
-
-      // Unlock scrolling once the 1200ms animation finishes
-      setTimeout(() => {
-        document.body.classList.remove('overflow-hidden');
-      }, transitionDuration);
-
     }, 2000);
 
     const getSpawnPos = () => {
@@ -114,7 +97,8 @@ const Starfield = ({ urls }) => {
       const needed = numPhotos - photosRef.current.length;
       for (let i = 0; i < needed; i++) {
         const pos = getSpawnPos();
-        const selectedImg = cachedImages[Math.floor(Math.random() * cachedImages.length)];
+        const images = cachedImagesRef.current;
+        const selectedImg = images.length > 0 ? images[Math.floor(Math.random() * images.length)] : null;
 
         photosRef.current.push({
           x: pos.x, y: pos.y, z: Math.random() * maxDepth,
@@ -149,13 +133,20 @@ const Starfield = ({ urls }) => {
       currentPhotos.forEach(photo => {
         photo.z -= currentSpeed;
 
+        // Upgrade placeholder to actual image if images have loaded
+        if (!photo.imageObject && cachedImagesRef.current.length > 0) {
+            photo.imageObject = cachedImagesRef.current[Math.floor(Math.random() * cachedImagesRef.current.length)];
+        }
+
         // Respawn when passed camera
         if (photo.z <= -100) {
           const pos = getSpawnPos();
           photo.x = pos.x;
           photo.y = pos.y;
           photo.z = maxDepth + (Math.random() * 150 - 50);
-          photo.imageObject = cachedImages[Math.floor(Math.random() * cachedImages.length)];
+          
+          const images = cachedImagesRef.current;
+          photo.imageObject = images.length > 0 ? images[Math.floor(Math.random() * images.length)] : null;
           photo.baseHeight = (350 + Math.random() * 350);
         }
 
@@ -191,8 +182,53 @@ const Starfield = ({ urls }) => {
             // Draw from the optimized offscreen canvas instead of raw Image
             ctx.drawImage(photo.imageObject.canvas, -scaledWidth / 2, -scaledHeight / 2, scaledWidth, scaledHeight);
           } else {
-            ctx.fillStyle = '#d1cec7';
+            // Editorial Skeleton Style (from AutoScrollGrid)
+            // 1. Background
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(-scaledWidth / 2, -scaledHeight / 2, scaledWidth, scaledHeight);
+            
+            // 2. Outer Border
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.lineWidth = Math.max(1, 1.5 * scale);
+            ctx.strokeRect(-scaledWidth / 2, -scaledHeight / 2, scaledWidth, scaledHeight);
+
+            // 3. Center Crosshair
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.beginPath();
+            ctx.moveTo(-scaledWidth * 0.05, 0);
+            ctx.lineTo(scaledWidth * 0.05, 0);
+            ctx.moveTo(0, -scaledHeight * 0.05);
+            ctx.lineTo(0, scaledHeight * 0.05);
+            ctx.stroke();
+
+            // 4. Crop Marks
+            const margin = scaledWidth * 0.04;
+            const lineLen = scaledWidth * 0.08;
+            
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.beginPath();
+            
+            // Top Left
+            ctx.moveTo(-scaledWidth/2 + margin + lineLen, -scaledHeight/2 + margin);
+            ctx.lineTo(-scaledWidth/2 + margin, -scaledHeight/2 + margin);
+            ctx.lineTo(-scaledWidth/2 + margin, -scaledHeight/2 + margin + lineLen);
+
+            // Top Right
+            ctx.moveTo(scaledWidth/2 - margin - lineLen, -scaledHeight/2 + margin);
+            ctx.lineTo(scaledWidth/2 - margin, -scaledHeight/2 + margin);
+            ctx.lineTo(scaledWidth/2 - margin, -scaledHeight/2 + margin + lineLen);
+
+            // Bottom Left
+            ctx.moveTo(-scaledWidth/2 + margin + lineLen, scaledHeight/2 - margin);
+            ctx.lineTo(-scaledWidth/2 + margin, scaledHeight/2 - margin);
+            ctx.lineTo(-scaledWidth/2 + margin, scaledHeight/2 - margin - lineLen);
+
+            // Bottom Right
+            ctx.moveTo(scaledWidth/2 - margin - lineLen, scaledHeight/2 - margin);
+            ctx.lineTo(scaledWidth/2 - margin, scaledHeight/2 - margin);
+            ctx.lineTo(scaledWidth/2 - margin, scaledHeight/2 - margin - lineLen);
+
+            ctx.stroke();
           }
           ctx.restore();
         }
@@ -230,7 +266,7 @@ const Starfield = ({ urls }) => {
       cancelAnimationFrame(animationFrameId);
       observer.disconnect();
     };
-  }, [cachedImages]);
+  }, []);
 
   return (
     <canvas

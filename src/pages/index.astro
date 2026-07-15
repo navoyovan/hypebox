@@ -21,7 +21,7 @@ const ENABLE_INTRO_ANIMATION = true;
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth overflow-x-hidden w-full">
+<html lang="en" class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -59,123 +59,164 @@ const ENABLE_INTRO_ANIMATION = true;
 	<body
 		data-intro-enabled={ENABLE_INTRO_ANIMATION}
 		class:list={[
-			"bg-milky-white text-charcoal-black min-h-screen overflow-x-hidden w-full relative",
+			"bg-milky-white text-charcoal-black min-h-screen [overflow-x:clip] w-full relative",
 			{ "overflow-hidden": ENABLE_INTRO_ANIMATION },
 		]}
 	>
-		<div class="flex flex-col w-full overflow-x-hidden relative">
+		<div class="flex flex-col w-full [overflow-x:clip] relative">
 			<Navbar />
 
-		<!-- 0. Starfield Section -->
-		<section
-			class="w-full h-[85vh] relative overflow-hidden bg-milky-white pt-20 flex items-center justify-center"
-		>
-			<div class="absolute inset-0 z-0 scale-105 blur-sm opacity-50">
-				<Starfield client:load urls={starfieldUrls} />
-			</div>
-
-			<!-- Bottom Blend Gradient -->
-			<div
-				class="absolute bottom-0 left-0 w-full h-[30vh] bg-gradient-to-t from-milky-white to-transparent z-10 pointer-events-none"
+			<!-- 0. Starfield Section -->
+			<section
+				class="w-full h-[85vh] relative overflow-hidden bg-milky-white pt-20 flex items-center justify-center"
 			>
-			</div>
-
-			<!-- Hero Text -->
-			<div
-				id="hero-title-wrapper"
-				class="relative z-10 flex flex-col items-center justify-center pointer-events-none w-full h-[150px]"
-			>
-				<a
-					id="hero-title"
-					href="/"
-					class="flex flex-col items-center justify-center pointer-events-auto"
-				>
-					<h1
-						id="hero-h1"
-						class:list={[
-							"font-display font-black text-[clamp(3rem,12vw,8rem)] tracking-tight uppercase text-charcoal-black m-0 leading-none inline-block whitespace-nowrap",
-							{
-								"animate-title-entrance":
-									ENABLE_INTRO_ANIMATION,
-							},
-						]}
-					>
-						Hype-box
-					</h1>
-				</a>
-			</div>
-		</section>
-
-		<!-- Cinematic Bars (Global Screen Overlay) -->
-		{
-			ENABLE_INTRO_ANIMATION && (
-				<>
+				<div class="absolute inset-0 z-0 scale-105 blur-sm opacity-50">
+					<!-- Static HTML Fallback (Visible instantly while React downloads on 3G) -->
 					<div
-						id="cinematic-top-bar"
-						class="fixed top-0 left-0 w-full h-[15vh] bg-charcoal-black z-[100] pointer-events-none"
-					/>
-					<div
-						id="cinematic-bottom-bar"
-						class="fixed bottom-0 left-0 w-full h-[15vh] bg-charcoal-black z-[100] pointer-events-none"
-					/>
-				</>
-			)
-		}
-
-		<!-- 1. Hero Section -->
-		<section class="relative max-w-7xl mx-auto px-6 pt-16 pb-20 lg:pt-24 lg:pb-32">
-			<div
-				class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center"
-			>
-				<!-- Hero Text -->
-				<div
-					class="relative z-10 lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left"
-				>
-					<h1
-						class="font-display font-black text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95] tracking-[-0.03em] uppercase"
+						id="starfield-fallback"
+						class="absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-1000"
 					>
-						<span class="block">Capture The</span>
-						<span class="block text-accent-500 italic">Hype-</span>
-						<span class="block font-light">Out of the box.</span>
-					</h1>
-
-					<!-- Metrics -->
-					<div
-						class="mt-12 flex flex-wrap justify-center lg:justify-start items-center gap-8 border-y border-charcoal-black py-6"
-					>
+						<!-- Scattered static skeleton frames -->
 						<div
-							class="font-mono text-[0.7rem] uppercase tracking-[0.1em] text-gray-500"
-						>
-							Established
-						</div>
-						<div class="flex flex-col items-start gap-1">
-							<div
-								class="font-space font-bold text-4xl tracking-tighter"
-							>
-								2026
-							</div>
-						</div>
-
-						<div
-							class="h-12 w-px bg-charcoal-black hidden md:block"
+							class="absolute top-[15%] left-[10%] w-[15vw] h-[20vw] border-2 border-black/10 bg-black/5 transform -rotate-6"
 						>
 						</div>
-
-						<div class="flex flex-col items-start gap-1">
-							<div
-								class="font-space font-bold text-4xl tracking-tighter"
-							>
-								1
-							</div>
+						<div
+							class="absolute top-[50%] left-[15%] w-[20vw] h-[25vw] border-2 border-black/10 bg-black/5 transform rotate-3"
+						>
 						</div>
 						<div
-							class="font-mono text-[0.7rem] uppercase tracking-[0.1em] text-gray-500"
+							class="absolute top-[20%] right-[10%] w-[18vw] h-[24vw] border-2 border-black/10 bg-black/5 transform rotate-6"
 						>
-							Pilot Partner
+						</div>
+						<div
+							class="absolute top-[60%] right-[15%] w-[12vw] h-[16vw] border-2 border-black/10 bg-black/5 transform -rotate-12"
+						>
+						</div>
+						<div
+							class="absolute top-[35%] left-[40%] w-[25vw] h-[33vw] border-2 border-black/10 bg-black/5 transform -rotate-2"
+						>
 						</div>
 					</div>
-					<!-- CTAs -->
-					<!-- <div class="mt-12 flex items-center gap-6">
+
+					<Starfield client:load urls={starfieldUrls} />
+				</div>
+
+				<!-- Bottom Blend Gradient -->
+				<div
+					class="absolute bottom-0 left-0 w-full h-[30vh] bg-gradient-to-t from-milky-white to-transparent z-10 pointer-events-none"
+				>
+				</div>
+
+				<!-- Hero Text -->
+				<div
+					id="hero-title-wrapper"
+					class="relative z-10 flex flex-col items-center justify-center pointer-events-none w-full h-[150px]"
+				>
+					<a
+						id="hero-title"
+						href="/"
+						class="flex flex-col items-center justify-center pointer-events-auto"
+					>
+						<h1
+							id="hero-h1"
+							class:list={[
+								"font-display font-black text-[clamp(2rem,10vw,8rem)] tracking-tight uppercase text-charcoal-black m-0 leading-none inline-block whitespace-nowrap",
+								{
+									"animate-title-entrance":
+										ENABLE_INTRO_ANIMATION,
+								},
+							]}
+						>
+							Hype-box
+						</h1>
+					</a>
+				</div>
+			</section>
+
+			<!-- Cinematic Bars (Global Screen Overlay) -->
+			{
+				ENABLE_INTRO_ANIMATION && (
+					<>
+						<div
+							id="cinematic-top-bar"
+							class="fixed top-0 left-0 w-full h-[15vh] bg-charcoal-black z-[100] pointer-events-none"
+						/>
+						<div
+							id="cinematic-bottom-bar"
+							class="fixed bottom-0 left-0 w-full h-[15vh] bg-charcoal-black z-[100] pointer-events-none"
+						/>
+					</>
+				)
+			}
+
+			<!-- 1. Hero Section -->
+			<section
+				class="relative max-w-[90rem] mx-auto px-4 pt-16 pb-20 lg:pt-24 lg:pb-32"
+			>
+				<div
+					class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center"
+				>
+					<!-- Hero Text -->
+					<div
+						class="relative z-10 lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left"
+					>
+						<h1
+							class="font-display font-black text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95] tracking-[-0.03em] uppercase"
+						>
+							<span class="block">Capture The</span>
+							<span class="block text-accent-500 italic"
+								>Hype-</span
+							>
+							<span class="block font-light whitespace-nowrap">
+								Out of the <span
+									class="font-display font-extrabold"
+									>box.</span
+								>
+							</span>
+						</h1>
+
+						<!-- Metrics -->
+						<div
+							class="mt-12 flex flex-wrap justify-center lg:justify-start items-center gap-8 lg:gap-12 border-y border-black/10 py-6"
+						>
+							<!-- Metric 1 -->
+							<div
+								class="flex flex-col items-center lg:items-start gap-1"
+							>
+								<div
+									class="font-mono text-[0.7rem] uppercase tracking-[0.1em] text-gray-500"
+								>
+									Established
+								</div>
+								<div
+									class="font-space font-bold text-4xl tracking-tighter"
+								>
+									2026
+								</div>
+							</div>
+
+							<div class="h-10 w-px bg-black/10 hidden md:block">
+							</div>
+
+							<!-- Metric 2 -->
+							<div
+								class="flex flex-col items-center lg:items-start gap-1"
+							>
+								<div
+									class="font-mono text-[0.7rem] uppercase tracking-[0.1em] text-gray-500"
+								>
+									Pilot Partner
+								</div>
+								<div
+									class="font-space font-bold text-4xl tracking-tighter"
+								>
+									1
+								</div>
+							</div>
+						</div>
+						<!-- CTAs -->
+						<!-- <div class="mt-12 flex items-center gap-6">
 						<a
 							href="#contact"
 							class="animate-pulse-accent bg-accent-500 text-white font-display text-[0.95rem] font-black uppercase tracking-[0.15rem] px-[2.2rem] py-[1rem] transition-transform duration-200 hover:-translate-y-[2px] hover:shadow-[0_6px_20px_color-mix(in_srgb,var(--color-accent-500)_45%,transparent)] cursor-pointer"
@@ -189,41 +230,35 @@ const ENABLE_INTRO_ANIMATION = true;
 							Lihat Demo
 						</a>
 					</div> -->
-				</div>
-
-				<!-- Hero Mockup/Image -->
-				<div class="lg:col-span-6 relative perspective-1000">
-					<!-- Dashboard Mockup Placeholder -->
-					<div
-						class="w-full bg-milky-white border border-charcoal-black relative overflow-hidden transform rotate-[-2deg] hover:rotate-0 transition-transform duration-500"
-					>
-						<!-- Mockup Header -->
-						<div
-							class="h-8 border-b border-charcoal-black bg-black/5 flex items-center px-4 gap-2"
-						>
-							<div
-								class="w-2 h-2 rounded-full border border-charcoal-black"
-							>
-							</div>
-							<div
-								class="w-2 h-2 rounded-full border border-charcoal-black"
-							>
-							</div>
-							<div
-								class="w-2 h-2 rounded-full border border-charcoal-black"
-							>
-							</div>
-						</div>
-						<!-- Mockup Content -->
-						<Image
-							src={dashImage}
-							alt="Dashboard UI"
-							class="w-full h-auto object-cover"
-						/>
 					</div>
 
-					<!-- Floating Card (Make it yours) -->
-					<!-- <div
+					<!-- Hero Mockup/Image -->
+					<div class="lg:col-span-6 relative perspective-1000">
+						<!-- Dashboard Mockup Placeholder -->
+						<div
+							class="w-full bg-milky-white border border-black/10 relative overflow-hidden transform rotate-[-2deg] hover:rotate-0 transition-transform duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.05)]"
+						>
+							<!-- Mockup Header -->
+							<div
+								class="h-8 border-b border-black/10 bg-black/5 flex items-center px-4 gap-2"
+							>
+								<div class="w-2 h-2 rounded-full bg-black/15">
+								</div>
+								<div class="w-2 h-2 rounded-full bg-black/15">
+								</div>
+								<div class="w-2 h-2 rounded-full bg-black/15">
+								</div>
+							</div>
+							<!-- Mockup Content -->
+							<Image
+								src={dashImage}
+								alt="Dashboard UI"
+								class="w-full h-auto object-cover"
+							/>
+						</div>
+
+						<!-- Floating Card (Make it yours) -->
+						<!-- <div
 						class="absolute bottom-8 -right-4 w-64 bg-accent-500 border border-charcoal-black p-6 transform rotate-[3deg] shadow-[8px_8px_0_0_#111111] hover:-translate-y-1 hover:shadow-[12px_12px_0_0_#111111] transition-all duration-300"
 					>
 						<h3
@@ -238,147 +273,265 @@ const ENABLE_INTRO_ANIMATION = true;
 							identity kamu!
 						</p>
 					</div> -->
+					</div>
 				</div>
-			</div>
-		</section>
+			</section>
 
-		<section id="features" class="max-w-7xl mx-auto px-6 py-16 lg:py-32">
-			<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-				<div class="lg:col-span-5 lg:sticky lg:top-32">
-					<h2
-						class="font-display font-black text-[clamp(2.5rem,4vw,3.5rem)] leading-none tracking-[-0.03em] uppercase"
-					>
-						Fitur standar<br />
-						<span class="italic font-light text-accent-500"
-							>Photobooth</span
-						><br />
-						Kekinian.
-					</h2>
-				</div>
-
+			<!-- 3. Auto Scroll Grids Showcase -->
+			<section class="w-full flex flex-col md:flex-row items-stretch">
+				<!-- Left: Auto Scroll Grid (60%) -->
 				<div
-					class="lg:col-span-7 flex flex-col border-t border-charcoal-black"
+					class="w-full md:w-[60%] h-[50vh] md:h-[70vh] border-b md:border-b-0 md:border-r border-dashed border-gray-300 relative overflow-hidden"
 				>
-					{
-						[
-							{
-								title: "Self Service",
-								desc: "Generate QRIS otomatis, potret, cetak, langsung tanpa ada harus yang jaga.",
-							},
-							{
-								title: "Payment Gateway",
-								desc: "Integrasi payment gateway langsung masuk akun kamu tanpa perantara dari kami.",
-							},
-							{
-								title: "Cloud Dashboard",
-								desc: "Mantengin analisis, cuan, dan traffic secara langsung? bisa!",
-							},
-							{
-								title: "Custom Template",
-								desc: "Bikin frame sesuka hati bebas upload frame sesukamu? boleh!",
-							},
-						].map((feature, i) => (
-							<div class="group flex items-start gap-6 py-8 border-b border-black/15 cursor-pointer hover:bg-black/5 transition-colors px-4 -mx-4">
-								<div class="font-mono text-sm text-gray-400 font-bold pt-1">
-									0{i + 1}
-								</div>
-								<div class="flex-1">
-									<h3 class="font-space font-bold text-xl tracking-tight text-charcoal-black group-hover:text-accent-500 transition-colors">
-										{feature.title}
-									</h3>
-									<p class="font-sans text-charcoal-dim mt-2">
-										{feature.desc}
-									</p>
-								</div>
-								<div class="w-10 h-10 border border-charcoal-black rounded-full flex items-center justify-center group-hover:bg-charcoal-black group-hover:text-white transition-all">
-									<svg
-										class="w-4 h-4"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											stroke-linecap="square"
-											stroke-linejoin="miter"
-											stroke-width="2"
-											d="M9 5l7 7-7 7"
-										/>
-									</svg>
-								</div>
-							</div>
-						))
-					}
+					<AutoScrollGrid client:visible />
 				</div>
-			</div>
 
-			<!-- 5B. Additional Features Section -->
-			<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start mt-16 lg:mt-0">
-				<div class="lg:col-span-5 lg:sticky lg:top-32">
+				<!-- Right: Copy (40%) -->
+				<div
+					class="w-full md:w-[40%] flex flex-col justify-center p-6 md:p-20 bg-black/5 overflow-hidden"
+				>
 					<h2
-						class="font-display font-black text-[clamp(2.5rem,4vw,3.5rem)] leading-none tracking-[-0.03em] uppercase"
+						class="font-display font-black text-[clamp(1.5rem,6.5vw,2.25rem)] lg:text-4xl uppercase tracking-tighter text-charcoal-black mb-6 leading-[1.1]"
 					>
-						And
-						<span class="italic font-light text-accent-500"
-							>more</span
+						<span
+							class="font-space font-bold text-[0.85rem] text-charcoal-dim tracking-[0.15em]"
+							>(coming soon)</span
 						>
+						<br />Infinite <br /> Possibilities
 					</h2>
+					<p
+						class="font-sans text-[0.95rem] text-charcoal-dim leading-relaxed mb-8"
+					>
+						Layout photobooth tidak lagi kaku. Hadirkan berbagai
+						macam template, frame, dan filter untuk memberikan
+						pilihan tanpa batas kepada tamu event Anda.
+					</p>
+					<!-- <a
+				href="#contact"
+				class="font-mono text-xs uppercase tracking-[0.15em] text-charcoal-black border-b border-charcoal-black pb-1 w-max hover:text-accent-500 hover:border-accent-500 transition-colors"
+			>
+				Explore Templates &rarr;
+			</a> -->
+				</div>
+			</section>
+
+			<!-- 4. Partners / Integrations -->
+			<section
+				id="pricing"
+				class="max-w-[90rem] mx-auto px-4 py-16 lg:py-32 border-b border-dashed border-gray-300"
+			>
+				<!-- Integrations Grid -->
+				<div
+					class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start"
+				>
+					<div class="lg:col-span-3">
+						<h2
+							class="font-display font-black text-3xl uppercase tracking-wide"
+						>
+							Early Adopter
+						</h2>
+					</div>
+
+					<div class="lg:col-span-9 flex flex-col gap-16">
+						<!-- Payments -->
+						<div class="flex flex-col items-start">
+							<p
+								class="font-sans text-[0.85rem] text-charcoal-dim border-l border-accent-500 pl-4"
+							>
+								<span
+									class="font-display font-bold text-[1rem] uppercase tracking-[0.1em] text-accent-500 block mb-1"
+									>Hype-Box × resting booth face</span
+								>
+								<strong>ATTENTION FUTURE CEOs!</strong>
+								<br />HYPE-BOX dan resting booth face sekarang
+								udah team-up buat menyuguhkan kalian meta
+								<strong>passive income.</strong>
+								<br />Consider us! we'll cut your research time
+								in half.
+							</p>
+							<a
+								href="https://instagram.com/restingboothface.id"
+								target="_blank"
+								rel="noopener noreferrer"
+								class="mt-6 w-max animate-pulse-accent bg-accent-500 text-white font-space text-[0.8rem] font-bold uppercase tracking-[0.1rem] px-[1.4rem] py-[0.6rem] transition-transform duration-200 hover:-translate-y-[2px] cursor-pointer"
+							>
+								Start Franchising &rarr;
+							</a>
+						</div>
+
+						<!-- Featured Partner -->
+						<div
+							class="mb-24 flex flex-col md:flex-row items-center gap-6 border border-charcoal-black p-8 bg-black/5"
+						>
+							<div
+								class="w-40 h-12 bg-gray-200 border border-charcoal-black flex items-center justify-center shrink-0"
+							>
+								<span
+									class="font-mono text-xs uppercase text-gray-500"
+									>EARLY ACCESS OPEN</span
+								>
+							</div>
+							<div class="flex-1">
+								<h3
+									class="font-display font-bold text-xl uppercase tracking-wide text-charcoal-black"
+								>
+									This Application is Still in Early Phase
+								</h3>
+								<p
+									class="font-sans text-[0.95rem] text-charcoal-dim mt-2 leading-relaxed"
+								>
+									Currently in active development and
+									continuously improving with feedback from
+									our early partners.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section
+				id="features"
+				class="max-w-[90rem] mx-auto px-4 py-16 lg:py-32"
+			>
+				<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+					<div class="lg:col-span-5">
+						<h2
+							class="lg:sticky lg:top-64 font-display font-black text-[clamp(2.5rem,4vw,3.5rem)] leading-none tracking-[-0.03em] uppercase"
+						>
+							Fitur standar<br />
+							<span class="italic font-light text-accent-500"
+								>Photobooth</span
+							><br />
+							Kekinian.
+						</h2>
+					</div>
+
+					<div
+						class="lg:col-span-7 flex flex-col"
+					>
+						{
+							[
+								{
+									title: "Self Service",
+									desc: "Generate QRIS otomatis, potret, cetak, langsung tanpa ada harus yang jaga.",
+								},
+								{
+									title: "Payment Gateway",
+									desc: "Integrasi akun payment gateway kamu, cuan langsung masuk tanpa perantara dari kami.",
+								},
+								{
+									title: "Cloud Dashboard",
+									desc: "Mantengin kinerja bisnis kamu dari device mana aja? bisa!",
+								},
+								{
+									title: "Custom Frames",
+									desc: "Bikin frame sesuka hati bebas upload frame sesukamu? boleh!",
+								},
+							].map((feature, i) => (
+								<div class:list={["group flex items-start gap-6 py-8 border-b border-black/15 cursor-pointer hover:bg-black/5 transition-colors px-4 -mx-4", { "border-t": i === 0 }]}>
+									<div class="font-space text-sm text-gray-400 font-bold pt-1">
+										0{i + 1}
+									</div>
+									<div class="flex-1">
+										<h3 class="font-display font-bold text-xl tracking-tight text-charcoal-black group-hover:text-accent-500 transition-colors">
+											{feature.title}
+										</h3>
+										<p class="font-sans text-charcoal-dim mt-2">
+											{feature.desc}
+										</p>
+									</div>
+									{/* <div class="w-10 h-10 border border-charcoal-black rounded-full flex items-center justify-center group-hover:bg-charcoal-black group-hover:text-white transition-all">
+										<svg
+											class="w-4 h-4"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path
+												stroke-linecap="square"
+												stroke-linejoin="miter"
+												stroke-width="2"
+												d="M9 5l7 7-7 7"
+											/>
+										</svg>
+									</div> */}
+								</div>
+							))
+						}
+					</div>
 				</div>
 
-				<div class="lg:col-span-7 flex flex-col">
-					{
-						[
-							{
-								title: "Theme Engine",
-								desc: "Custom detailed theme customization.",
-							},
-							{
-								title: "Interactive Dashboard",
-								desc: "Real-time control & analytics (etc).",
-							},
-							{
-								title: "Supported Cameras",
-								desc: "Canon, Sony, Nikon, Go-Pro & Webcam",
-							},
-						].map((feature, i) => (
-							<div class="group flex items-start gap-6 py-8 border-b border-black/15 cursor-pointer hover:bg-black/5 transition-colors px-4 -mx-4">
-								<div class="font-mono text-sm text-gray-400 font-bold pt-1">
-									0{i + 5}
+				<!-- 5B. Additional Features Section -->
+				<div
+					class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 mt-16 lg:mt-0"
+				>
+					<div class="lg:col-span-5">
+						<h2
+							class="lg:sticky lg:top-64 font-display font-black text-[clamp(2.5rem,4vw,3.5rem)] leading-none tracking-[-0.03em] uppercase"
+						>
+							And
+							<span class="italic font-light text-accent-500"
+								>more</span
+							>
+						</h2>
+					</div>
+
+					<div class="lg:col-span-7 flex flex-col">
+						{
+							[
+								{
+									title: "Theme Engine",
+									desc: "Mau tema template? atau custom sesuai branding? bisa kustomisasi tema sesukamu.",
+								},
+								{
+									title: "Interactive Dashboard",
+									desc: "Pantau analisis, cuan, dan traffic secara langsung? bisa!",
+								},
+								{
+									title: "Supported Cameras",
+									desc: "Canon, Sony, Nikon, Go-Pro & Webcam. Kita coba sampe bisa!",
+								},
+							].map((feature, i) => (
+								<div class="group flex items-start gap-6 py-8 border-b border-black/15 cursor-pointer hover:bg-black/5 transition-colors px-4 -mx-4">
+									<div class="font-space text-sm text-gray-400 font-bold pt-1">
+										0{i + 5}
+									</div>
+									<div class="flex-1">
+										<h3 class="font-display font-bold text-xl tracking-tight text-charcoal-black group-hover:text-accent-500 transition-colors">
+											{feature.title}
+										</h3>
+										<p class="font-sans text-charcoal-dim mt-2">
+											{feature.desc}
+										</p>
+									</div>
+									{/* <div class="w-10 h-10 border border-charcoal-black rounded-full flex items-center justify-center group-hover:bg-charcoal-black group-hover:text-white transition-all">
+										<svg
+											class="w-4 h-4"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path
+												stroke-linecap="square"
+												stroke-linejoin="miter"
+												stroke-width="2"
+												d="M9 5l7 7-7 7"
+											/>
+										</svg>
+									</div> */}
 								</div>
-								<div class="flex-1">
-									<h3 class="font-space font-bold text-xl tracking-tight text-charcoal-black group-hover:text-accent-500 transition-colors">
-										{feature.title}
-									</h3>
-									<p class="font-sans text-charcoal-dim mt-2">
-										{feature.desc}
-									</p>
-								</div>
-								<div class="w-10 h-10 border border-charcoal-black rounded-full flex items-center justify-center group-hover:bg-charcoal-black group-hover:text-white transition-all">
-									<svg
-										class="w-4 h-4"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											stroke-linecap="square"
-											stroke-linejoin="miter"
-											stroke-width="2"
-											d="M9 5l7 7-7 7"
-										/>
-									</svg>
-								</div>
-							</div>
-						))
-					}
+							))
+						}
+					</div>
 				</div>
-			</div>
-		</section>
-		<!-- 2. Marquee Section -->
-		<!-- <section
+			</section>
+			<!-- 2. Marquee Section -->
+			<!-- <section
 			class="border-y border-charcoal-black bg-black/5 overflow-hidden py-4 flex relative group"
 		> -->
-		<!-- Add gradients for smooth fade on edges -->
-		<!-- <div
+			<!-- Add gradients for smooth fade on edges -->
+			<!-- <div
 			class="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-milky-white to-transparent z-10 pointer-events-none"
 		>
 		</div>
@@ -387,7 +540,7 @@ const ENABLE_INTRO_ANIMATION = true;
 		>
 		</div> -->
 
-		<!-- <div class="flex animate-marquee whitespace-nowrap min-w-max">
+			<!-- <div class="flex animate-marquee whitespace-nowrap min-w-max">
 			{
 				Array(10)
 					.fill([
@@ -411,119 +564,15 @@ const ENABLE_INTRO_ANIMATION = true;
 					))
 			}
 		</div> -->
-	</body>
-
-	<!-- 3. Auto Scroll Grids Showcase -->
-	<section class="w-full flex flex-col md:flex-row items-stretch">
-		<!-- Left: Auto Scroll Grid (60%) -->
-		<div
-			class="w-full md:w-[60%] h-[50vh] md:h-[70vh] border-b md:border-b-0 md:border-r border-dashed border-gray-300 relative overflow-hidden"
-		>
-			<AutoScrollGrid client:visible />
 		</div>
 
-		<!-- Right: Copy (40%) -->
-		<div
-			class="w-full md:w-[40%] flex flex-col justify-center p-8 md:p-20 bg-black/5 overflow-hidden"
-		>
-			<h2
-				class="font-display font-black text-[clamp(2rem,8vw,2.25rem)] md:text-4xl uppercase tracking-tighter text-charcoal-black mb-6 leading-[1.1] break-words hyphens-auto"
-			>
-				Infinite <br /> Possibilities
-			</h2>
-			<p
-				class="font-sans text-[0.95rem] text-charcoal-dim leading-relaxed mb-8"
-			>
-				Layout photobooth tidak lagi kaku. Hadirkan berbagai macam
-				template, frame, dan filter untuk memberikan pilihan tanpa batas
-				kepada tamu event Anda.
-			</p>
-			<a
-				href="#contact"
-				class="font-mono text-xs uppercase tracking-[0.15em] text-charcoal-black border-b border-charcoal-black pb-1 w-max hover:text-accent-500 hover:border-accent-500 transition-colors"
-			>
-				Explore Templates &rarr;
-			</a>
-		</div>
-	</section>
-
-	<!-- 4. Partners / Integrations -->
-	<section
-		id="pricing"
-		class="max-w-7xl mx-auto px-6 py-16 lg:py-32 border-b border-dashed border-gray-300"
-	>
-		<!-- Integrations Grid -->
-		<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-			<div class="lg:col-span-3">
-				<h2
-					class="font-display font-black text-3xl uppercase tracking-wide"
-				>
-					Early Adopter
-				</h2>
-			</div>
-
-			<div class="lg:col-span-9 flex flex-col gap-16">
-				<!-- Payments -->
-				<div class="flex flex-col items-start">
-					<p
-						class="font-sans text-[1rem] text-charcoal-dim border-l border-accent-500 pl-4"
-					>
-						<span
-							class="font-display font-bold text-[0.85rem] uppercase tracking-[0.1em] text-accent-500 block mb-1"
-							>Hype-Box × resting booth face</span
-						>
-						<strong>ATTENTION FUTURE CEOs!</strong>
-						<br />HYPE-BOX dan resting booth face sekarang udah
-						team-up buat menyuguhkan kalian
-						<strong>meta passive income.</strong>
-						<br />Consider us! we'll cut your research time in half.
-					</p>
-					<a
-						href="https://instagram.com/restingboothface.id"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="mt-6 w-max animate-pulse-accent bg-accent-500 text-white font-space text-[0.8rem] font-bold uppercase tracking-[0.1rem] px-[1.4rem] py-[0.6rem] transition-transform duration-200 hover:-translate-y-[2px] cursor-pointer"
-					>
-						Start Franchising &rarr;
-					</a>
-				</div>
-
-				<!-- Featured Partner -->
-				<div
-					class="mb-24 flex flex-col md:flex-row items-center gap-6 border border-charcoal-black p-8 bg-black/5"
-				>
-					<div
-						class="w-40 h-12 bg-gray-200 border border-charcoal-black flex items-center justify-center shrink-0"
-					>
-						<span class="font-mono text-xs uppercase text-gray-500"
-							>EARLY ACCESS OPEN</span
-						>
-					</div>
-					<div class="flex-1">
-						<h3
-							class="font-display font-bold text-xl uppercase tracking-wide text-charcoal-black"
-						>
-							This Application is Still in Early Phase
-						</h3>
-						<p
-							class="font-sans text-[0.95rem] text-charcoal-dim mt-2 leading-relaxed"
-						>
-							Currently in active development and continuously
-							improving with feedback from our early partners.
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- 4. Social Proof & Testimonials -->
-	<!-- <section
-		class="max-w-7xl mx-auto px-6 py-32 border-b border-dashed border-gray-300"
+		<!-- 4. Social Proof & Testimonials -->
+		<!-- <section
+		class="max-w-[90rem] mx-auto px-4 py-32 border-b border-dashed border-gray-300"
 	>
 		<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
 			<!-- Brand Grid -->
-	<!-- <div class="lg:col-span-5 flex flex-col gap-10"> 
+		<!-- <div class="lg:col-span-5 flex flex-col gap-10"> 
 				<h2
 					class="font-display font-black text-3xl uppercase tracking-wide leading-tight"
 				>
@@ -595,119 +644,121 @@ const ENABLE_INTRO_ANIMATION = true;
 		</div>
 	</section> -->
 
-	<!-- 5. Features Section -->
+		<!-- 5. Features Section -->
 
-	<!-- 6. How it Works -->
-	<section
-		id="documentation"
-		class="max-w-7xl mx-auto px-6 py-16 lg:py-32 border-t border-dashed border-gray-300"
-	>
-		<div class="mb-16">
-			<h2
-				class="font-display font-black text-3xl uppercase tracking-wide text-charcoal-black"
-			>
-				Setup gausah pusing
-			</h2>
-			<p class="font-sans text-charcoal-dim mt-4 max-w-xl">
-				Dokumentasi membingungkan? Gausah khawatir, kita bisa bantu
-				setup, pokoknya beres.
-			</p>
-		</div>
+		<!-- 6. How it Works -->
+		<section
+			id="documentation"
+			class="max-w-[90rem] mx-auto px-4 py-16 lg:py-32 border-t border-dashed border-gray-300"
+		>
+			<div class="mb-16">
+				<h2
+					class="font-display font-black text-3xl uppercase tracking-wide text-charcoal-black"
+				>
+					Setup gausah pusing
+				</h2>
+				<p class="font-sans text-charcoal-dim mt-4 max-w-xl">
+					Dokumentasi membingungkan? Gausah khawatir, kami bisa bantu
+					setup, pokoknya beres.
+				</p>
+			</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-			{
-				[
-					{
-						step: "01",
-
-						title: "Connect Perangkat",
-						desc: "Hubungkan kamera/webcam dan printer via USB, dan install aplikasi pendukung",
-					},
-					{
-						step: "02",
-						title: "Install Hype-box",
-						desc: "Download dan jalankan HYPE-BOX di Mesin kiosk Anda.",
-					},
-					{
-						step: "03",
-						title: "Lay Back",
-						desc: "Sistem otomatis memproses pembayaran dan mencetak foto. Anda siap menerima passive income.",
-					},
-				].map((item) => (
-					<div class="group flex flex-col border border-black/15 rounded-md p-10 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.08)] justify-between min-h-[300px]">
-						<div class="font-mono text-4xl font-light text-gray-300 tracking-tighter">
-							{item.step}
-						</div>
-						<div>
-							<h3 class="font-display font-bold text-xl uppercase tracking-wide text-charcoal-black mb-3 group-hover:text-accent-500 transition-colors duration-200">
-								{item.title}
-							</h3>
-							<p class="font-sans text-[0.9rem] text-charcoal-dim leading-relaxed">
-								{item.desc}
-							</p>
-						</div>
-					</div>
-				))
-			}
-		</div>
-	</section>
-
-	<!-- 7. Use Cases -->
-	<section
-		id="about"
-		class="border-t border-dashed border-gray-300 bg-black/5 py-16 lg:py-32"
-	>
-		<div class="max-w-7xl mx-auto px-6">
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-				<div>
-					<h2
-						class="font-display font-black text-[clamp(2rem,8vw,2.25rem)] md:text-4xl uppercase tracking-tighter text-charcoal-black mb-6 leading-[1.1] break-words"
-					>
-						Dibangun untuk<br />skala bisnis Anda.
-					</h2>
-					<p
-						class="font-sans text-[0.95rem] text-charcoal-dim leading-relaxed mb-8"
-					>
-						Baik Anda baru memulai usaha sewa photobooth, atau
-						agency besar yang menangani ratusan event korporat,
-						sistem kami fleksibel untuk segala kebutuhan.
-					</p>
-					<div
-						class="flex flex-col gap-px bg-charcoal-black border border-charcoal-black"
-					>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+				{
+					[
 						{
-							[
-								{
-									title: "Event Organizers",
-									desc: "Wedding, birthday, corporate activation.",
-								},
-								{
-									title: "Permanent Studios",
-									desc: "Instalasi permanen di mall atau cafe.",
-								},
-								{
-									title: "Creative Agencies",
-									desc: "Custom branding untuk marketing campaign.",
-								},
-							].map((usecase) => (
-								<div class="bg-milky-white p-6 flex justify-between items-center hover:bg-white transition-colors cursor-pointer group">
-									<div>
-										<h4 class="font-space font-bold text-charcoal-black group-hover:text-accent-500 transition-colors">
-											{usecase.title}
-										</h4>
-										<p class="font-mono text-[0.7rem] uppercase tracking-[0.1em] text-gray-500 mt-1">
-											{usecase.desc}
-										</p>
+							step: "01",
+
+							title: "Connect Perangkat",
+							desc: "Hubungkan kamera/webcam dan printer via USB, dan install aplikasi pendukung",
+						},
+						{
+							step: "02",
+							title: "Install Hype-box",
+							desc: "Download dan jalankan HYPE-BOX di Mesin kiosk.",
+						},
+						{
+							step: "03",
+							title: "Lay Back",
+							desc: "Sistem otomatis proses pembayaran dan cetak foto. Kamu siap nerima passive income.",
+						},
+					].map((item) => (
+						<div class="group flex flex-col border border-black/15 rounded-md p-10 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.08)] justify-between min-h-[300px]">
+							<div class="font-display text-4xl font-light text-gray-300 tracking-tighter">
+								{item.step}
+							</div>
+							<div>
+								<h3 class="font-display font-bold text-xl uppercase tracking-wide text-charcoal-black mb-3 group-hover:text-accent-500 transition-colors duration-200">
+									{item.title}
+								</h3>
+								<p class="font-sans text-[0.9rem] text-charcoal-dim leading-relaxed">
+									{item.desc}
+								</p>
+							</div>
+						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<!-- 7. Use Cases -->
+		<section
+			id="about"
+			class="border-t border-dashed border-gray-300 bg-black/5 py-16 lg:py-32"
+		>
+			<div class="max-w-[90rem] mx-auto px-4">
+				<div
+					class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center"
+				>
+					<div>
+						<h2
+							class="font-display font-black text-[clamp(1.5rem,6.5vw,2.25rem)] lg:text-4xl uppercase tracking-tighter text-charcoal-black mb-6 leading-[1.1]"
+						>
+							Dibangun untuk<br />scaled business.
+						</h2>
+						<p
+							class="font-sans text-[0.95rem] text-charcoal-dim leading-relaxed mb-8"
+						>
+							Mau baru mulai usaha photobooth, atau agency besar
+							yang menangani ratusan event korporat, sistem kami
+							fleksibel untuk segala kebutuhan.
+						</p>
+						<div
+							class="flex flex-col gap-px bg-black/10 border border-black/10 rounded-md overflow-hidden"
+						>
+							{
+								[
+									{
+										title: "Event Organizers",
+										desc: "Wedding, birthday, corporate activation.",
+									},
+									{
+										title: "Semi Permanent and Permanent Studios",
+										desc: "Instalasi di mall atau cafe. atau public space lainnya",
+									},
+									{
+										title: "Creative Agencies",
+										desc: "Custom branding untuk marketing campaign.",
+									},
+								].map((usecase) => (
+									<div class="bg-milky-white p-6 flex justify-between items-center hover:bg-white transition-colors cursor-pointer group">
+										<div>
+											<h4 class="font-display font-bold text-charcoal-black group-hover:text-accent-500 transition-colors">
+												{usecase.title}
+											</h4>
+											<p class="font-sans text-[0.7rem] uppercase tracking-[0.1em] text-gray-500 mt-1">
+												{usecase.desc}
+											</p>
+										</div>
+										<div class="text-charcoal-black opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all font-bold">
+											{/* → */}
+										</div>
 									</div>
-									<div class="text-charcoal-black opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all font-bold">
-										{/* → */}
-									</div>
-								</div>
-							))
-						}
+								))
+							}
+						</div>
 					</div>
-				</div>
-				<!-- <div
+					<!-- <div
 					class="aspect-square bg-gray-200 border border-charcoal-black relative overflow-hidden flex items-center justify-center group"
 				>
 					<div
@@ -729,70 +780,72 @@ const ENABLE_INTRO_ANIMATION = true;
 						</h3>
 					</div>
 				</div> -->
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
 
-	<!-- 8. Final CTA -->
-	<section
-		id="contact"
-		class="py-16 lg:py-32 border-t border-dashed border-gray-300 text-center px-6"
-	>
-		<h2
-			class="font-display font-black text-[clamp(2.5rem,5vw,5rem)] uppercase tracking-tighter text-charcoal-black leading-[0.9] mb-8"
+		<!-- 8. Final CTA -->
+		<section
+			id="contact"
+			class="py-16 lg:py-32 border-t border-dashed border-gray-300 text-center px-4"
 		>
-			<span class="font-bold">Siap bikin</span>
-			<!-- <br /> -->
-			<span class="italic font-light text-accent-500">photobooth</span>
-			<span class="font-bold"><br /> paling</span> hype?
-		</h2>
-		<p
-			class="font-mono text-sm uppercase tracking-[0.1em] text-charcoal-dim mb-12"
-		>
-			Konsultasi Gratis. Sandbox aplikasi? bisa!
-		</p>
-		<a
-			href="https://wa.me/6285155321113"
-			target="_blank"
-			rel="noopener noreferrer"
-			class="inline-flex items-center gap-4 animate-pulse-accent bg-accent-500 text-white font-display text-[0.95rem] font-black uppercase tracking-[0.15rem] px-10 py-5 transition-transform duration-200 hover:-translate-y-[2px] hover:shadow-[0_6px_20px_color-mix(in_srgb,var(--color-accent-500)_45%,transparent)] cursor-pointer"
-		>
-			Make It Yours
-			<svg
-				class="w-5 h-5"
-				fill="none"
-				stroke="currentColor"
-				viewBox="0 0 24 24"
-				><path
-					stroke-linecap="square"
-					stroke-linejoin="miter"
-					stroke-width="2"
-					d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg
+			<h2
+				class="font-display font-black text-[clamp(2.5rem,5vw,5rem)] uppercase tracking-tighter text-charcoal-black leading-[0.9] mb-8"
 			>
-		</a>
-	</section>
-
-	<!-- Footer -->
-	<footer class="border-t border-charcoal-black py-8 bg-milky-white">
-		<div
-			class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4"
-		>
-			<!-- Link down left for component library as requested -->
-			<a href="#">
-				<div
-					class="font-display font-black text-lg tracking-[0.05em] uppercase text-charcoal-black"
+				<span class="font-bold">Siap bikin</span>
+				<!-- <br /> -->
+				<span class="italic font-light text-accent-500">photobooth</span
 				>
-					Hype-ware <span class="font-bold">by Vann</span>
-				</div>
-				<div
-					class="font-mono text-[0.7rem] uppercase tracking-[0.1em] text-gray-500"
+				<span class="font-bold"><br /> paling</span> hype?
+			</h2>
+			<p
+				class="font-sans text-sm uppercase tracking-[0.1em] text-charcoal-dim mb-12"
+			>
+				Konsultasi? Gratis. Sandbox aplikasi? bisa!
+			</p>
+			<a
+				href="https://wa.me/6285155321113"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="inline-flex items-center gap-4 animate-pulse-accent bg-accent-500 text-white font-display text-[0.95rem] font-black uppercase tracking-[0.15rem] px-10 py-5 transition-transform duration-200 hover:-translate-y-[2px] hover:shadow-[0_6px_20px_color-mix(in_srgb,var(--color-accent-500)_45%,transparent)] cursor-pointer"
+			>
+				Make It Yours
+				<svg
+					class="w-5 h-5"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+					><path
+						stroke-linecap="square"
+						stroke-linejoin="miter"
+						stroke-width="2"
+						d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg
 				>
-					© 2026. Hype-ware software.
-				</div>
 			</a>
-		</div>
-	</footer>
-	</div> <!-- End of overflow-x-hidden wrapper -->
+		</section>
+
+		<!-- Footer -->
+		<footer class="border-t border-charcoal-black py-8 bg-milky-white">
+			<div
+				class="max-w-[90rem] mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4"
+			>
+				<!-- Link down left for component library as requested -->
+				<a href="#">
+					<div
+						class="font-display font-black text-lg tracking-[0.05em] uppercase text-charcoal-black"
+					>
+						Hype-ware <span class="font-bold">by Vann</span>
+					</div>
+					<div
+						class="font-mono text-[0.7rem] uppercase tracking-[0.1em] text-gray-500"
+					>
+						© 2026. Hype-ware software.
+					</div>
+				</a>
+			</div>
+		</footer>
+	</body>
+	<!-- End of overflow-x-hidden wrapper -->
 
 	<!-- Dev Position absolute button (requested earlier) -->
 	{
@@ -822,6 +875,7 @@ const ENABLE_INTRO_ANIMATION = true;
 			let absoluteLeft = 0;
 			let isScrolled = false;
 			let transitionTimeout: ReturnType<typeof setTimeout>;
+			let targetTransform = "";
 
 			const calculateRects = () => {
 				// Move back to wrapper temporarily to calculate native flow rect
@@ -847,17 +901,76 @@ const ENABLE_INTRO_ANIMATION = true;
 				heroTitle.style.transformOrigin = "center center";
 				heroTitle.style.zIndex = "60"; // above navbar (z-50)
 
+				// Precalculate the target transform to avoid scroll jitter
+				const nRect = navLogo.getBoundingClientRect();
+				const h1Elem = document.getElementById("hero-h1");
+				const h1Width = h1Elem
+					? h1Elem.offsetWidth
+					: wrapper.offsetWidth;
+				const scale = nRect.width / h1Width;
+
+				const navCenterX = nRect.left + nRect.width / 2;
+				const navCenterY = nRect.top + nRect.height / 2;
+				const wrapCenterX = absoluteLeft + wrapper.offsetWidth / 2;
+				const wrapCenterY = absoluteTop + wrapper.offsetHeight / 2;
+
+				const translateX = navCenterX - wrapCenterX;
+				const translateY = navCenterY - wrapCenterY;
+
+				targetTransform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
 				// Move to body to escape overflow-hidden clipping from the parent section
 				document.body.appendChild(heroTitle);
+
+				// If we are already scrolled, immediately apply the new precalculated target
+				if (isScrolled) {
+					heroTitle.style.transition = "none";
+					heroTitle.style.transform = targetTransform;
+				}
 
 				handleScroll();
 			};
 
-			// Initial calculations
-			setTimeout(calculateRects, 100);
-			window.addEventListener("resize", calculateRects);
+			let isAnimationFinished = false;
+
+			// Defer all fixed positioning and reparenting until the initial CSS animation is completely finished!
+			// This prevents the browser from restarting the CSS animation when the DOM element is moved.
+			setTimeout(() => {
+				const h1 = document.getElementById("hero-h1");
+				if (h1) h1.classList.remove("animate-title-entrance");
+
+				isAnimationFinished = true;
+				calculateRects();
+			}, 2000);
+
+			// Cinematic Intro Sequence (Decoupled from React to ensure it plays immediately on slow networks)
+			setTimeout(() => {
+				const topBar = document.getElementById("cinematic-top-bar");
+				const bottomBar = document.getElementById(
+					"cinematic-bottom-bar",
+				);
+				if (topBar) topBar.classList.add("animate-cinematic-top");
+				if (bottomBar)
+					bottomBar.classList.add("animate-cinematic-bottom");
+
+				// Unlock scrolling once the 1200ms cinematic bar animation finishes
+				setTimeout(() => {
+					document.body.classList.remove("overflow-hidden");
+				}, 1200);
+			}, 2000);
+
+			let lastWidth = window.innerWidth;
+			window.addEventListener("resize", () => {
+				// Ignore minor width changes (like scrollbar toggles on mobile)
+				if (Math.abs(window.innerWidth - lastWidth) > 30) {
+					lastWidth = window.innerWidth;
+					if (isAnimationFinished) calculateRects();
+				}
+			});
 
 			const handleScroll = () => {
+				if (!isAnimationFinished) return;
+
 				const scrollY = window.scrollY;
 
 				if (scrollY > 100) {
@@ -868,23 +981,8 @@ const ENABLE_INTRO_ANIMATION = true;
 							"transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
 					}
 
-					const nRect = navLogo.getBoundingClientRect();
-					const h1Elem = document.getElementById("hero-h1");
-					const h1Width = h1Elem
-						? h1Elem.offsetWidth
-						: wrapper.offsetWidth;
-
-					const scale = nRect.width / h1Width;
-
-					const navCenterX = nRect.left + nRect.width / 2;
-					const navCenterY = nRect.top + nRect.height / 2;
-					const wrapCenterX = absoluteLeft + wrapper.offsetWidth / 2;
-					const wrapCenterY = absoluteTop + wrapper.offsetHeight / 2;
-
-					const translateX = navCenterX - wrapCenterX;
-					const translateY = navCenterY - wrapCenterY;
-
-					heroTitle.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+					// Use precalculated constant target to prevent animation jitter on URL bar resize
+					heroTitle.style.transform = targetTransform;
 				} else {
 					if (isScrolled) {
 						isScrolled = false;
