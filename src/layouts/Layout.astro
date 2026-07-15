@@ -1,0 +1,384 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import SEO from '../components/SEO.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:;base64,=" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Fonts: preconnect then load -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <SEO {title} {description} {image} />
+    <ClientRouter />
+
+    <!-- Seed dynamic theme before styling renders -->
+    <script is:inline>
+      if (!document.documentElement.className.match(/-green|-pink|-pinklight/)) {
+        const colors = ['green', 'pink', 'pinklight'];
+        document.documentElement.classList.add('-' + colors[Math.floor(Math.random() * colors.length)]);
+      }
+    </script>
+
+    <!-- Inline styling for page loader to avoid flash of unstyled content -->
+    <style is:inline>
+      .o-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg-color, #00522D);
+        color: #fff8f6;
+        font-size: clamp(2.4rem, 5vw, 4rem);
+        font-family: "Bricolage Grotesque", system-ui, sans-serif;
+        font-weight: 800;
+        line-height: 0.7;
+        text-align: center;
+        text-transform: uppercase;
+        pointer-events: all;
+      }
+      .o-loader em {
+        color: var(--em-color, #F29EBD);
+        font-style: italic;
+      }
+      .-green .o-loader { --bg-color: #00522D; --tx-color: #FFF8F6; --em-color: #F29EBD }
+      .-pink .o-loader { --bg-color: #DB3C8A; --tx-color: #FFF8F6; --em-color: #F29EBD; background-color: #db3c8a }
+      .-pinklight .o-loader { --bg-color: #F29EBD; --tx-color: #FFF8F6; --em-color: #F29EBD }
+      .-pinklight .o-loader em { color: #00522d }
+
+      .o-loader_wordWrapper {
+        display: inline-flex;
+        overflow: hidden;
+        vertical-align: bottom;
+      }
+      .o-loader_word {
+        display: inline-block;
+        transform: translateY(120%);
+        transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1) var(--delay, 0ms);
+      }
+      .o-loader_text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 5;
+        width: 100%;
+        padding: 0 3rem;
+        transform: translate(-50%, -50%);
+        max-width: 38rem;
+      }
+      @media only screen and (min-width: 768px) {
+        .o-loader_text {
+          padding: 0 6rem;
+          max-width: none;
+        }
+      }
+      .o-loader_shapeWrapper {
+        position: relative;
+        width: fit-content;
+        height: 100%;
+        background-color: var(--bg-color);
+      }
+      .o-loader_shapeWrapper:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 99%;
+        z-index: 2;
+        width: 150%;
+        height: 100%;
+        background-color: var(--bg-color);
+        pointer-events: none;
+      }
+      .o-loader_shapeWrapper:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 99%;
+        z-index: 2;
+        width: 150%;
+        height: 100%;
+        background-color: var(--bg-color);
+        pointer-events: none;
+      }
+      .o-loader_shape {
+        fill: var(--bg-color);
+        transition: transform 1s cubic-bezier(0.86, 0, 0.07, 1);
+      }
+      .o-loader svg {
+        height: 100%;
+        transform: scale(1.2);
+      }
+      .o-loader .-left { transform: translate(0, 0); }
+      .o-loader .-right { transform: translate(0, 0); }
+
+      /* Closing animations */
+      .o-loader.is-loaded .-left {
+        transform: translate(-110%, 0) rotate(-4deg);
+      }
+      .o-loader.is-loaded .-right {
+        transform: translate(110%, 0) rotate(4deg);
+      }
+      .o-loader polyline {
+        fill: none;
+        stroke: #fce5df;
+        transition: stroke-dashoffset 1.4s cubic-bezier(.645,.045,.355,1), stroke-width 1.4s cubic-bezier(.645,.045,.355,1);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 140px;
+        stroke-dasharray: 2000px;
+        stroke-dashoffset: 2000px;
+      }
+      .o-loader.is-drawing polyline {
+        stroke-dashoffset: 0;
+        stroke-width: 280px;
+      }
+      .o-loader.is-drawing .o-loader_word {
+        transform: translateY(0);
+      }
+      .m-logo {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: space-between;
+        overflow: hidden;
+        width: 100%;
+      }
+      .m-logo span {
+        flex-grow: 1;
+        transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0ms);
+        transform: translateY(100%);
+        display: inline-block;
+        text-align: center;
+      }
+      .o-homeHero.-active .m-logo span,
+      .o-homeHero.is-in-view .m-logo span,
+      .is-in-view .m-logo span {
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Custom mouse follower cursor -->
+    <div class="a-cursor" id="js-cursor"></div>
+
+    <!-- Entry page loader -->
+    <div class="o-loader" id="js-loader">
+      <div class="o-loader_text">
+        <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 100ms">To</span></span>
+        <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 150ms">build</span></span>
+        <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 200ms">beautifully,</span></span>
+        <br />
+        <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 250ms">without</span></span>
+        <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 300ms">compromise.</span></span>
+        <br />
+        <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 400ms">To</span></span>
+        <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 450ms">stand</span></span>
+        <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 500ms">out,</span></span>
+        <br />
+        <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 550ms">with</span></span>
+        <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 600ms">clean</span></span>
+        <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 650ms">precision.</span></span>
+        <br />
+        <em>
+          <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 750ms">And</span></span>
+          <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 800ms">to</span></span>
+          <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 850ms">turn</span></span>
+          <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 900ms">code</span></span>
+          <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 950ms">into</span></span>
+          <span class="o-loader_wordWrapper"><span class="o-loader_word" style="--delay: 1000ms">art.</span></span>
+        </em>
+      </div>
+
+      <div class="o-loader_shapeWrapper" id="js-shape">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 525 923">
+          <polyline points="363.7 -186.6 391.8 335 133.6 306.9 413 627.4 133.6 578.2 164.8 1001.5"></polyline>
+          <path class="o-loader_shape -left" d="M113.4,924l-52.2-371.9c-1.1-7.7,4.9-14.6,12.7-14.6h163.2c10.8,0,16.8-12.7,9.9-21l-180.8-219.2c-6.9-8.4-1-21,9.9-21h205.3c6.2,0,11.6-4.5,12.7-10.7L339,0H0v924h113.4Z"></path>
+          <path class="o-loader_shape -right" d="M411.6,0l52.2,371.9c1.1,7.7-4.9,14.6-12.7,14.6h-163.2c-10.8,0-16.8,12.7-9.9,21l180.8,219.2c6.9,8.4,1,21-9.9,21h-205.3c-6.2,0-11.6,4.5-12.7,10.7l-44.9,265.5h339V0h-113.4Z"></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="o-header">
+      <button aria-label="Menu" class="a-button -icon o-header_menuButton -bgpink-2 -clrgreen -md" id="js-menu-toggle" onclick="document.body.classList.toggle('-isMenuOpen'); const overlay = document.getElementById('js-menu-overlay'); if (overlay) { const isOpen = document.body.classList.contains('-isMenuOpen'); overlay.setAttribute('aria-hidden', (!isOpen).toString()); }">
+        <svg aria-hidden="true" class="a-svg -menu a-icon" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1.5 1h13M1.5 6h13M1.5 11h13"/></svg>
+        <svg aria-hidden="true" class="a-svg -close a-icon" viewBox="0 0 11 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1.5 1.75 9.5 9.75M9.5 1.75 1.5 9.75"/></svg>
+      </button>
+
+      <a class="o-header_logo" href="/" title="Yovan">
+        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3">
+          <polygon points="55,10 65,45 40,45 45,90 20,40 45,40" fill="currentColor" />
+        </svg>
+      </a>
+
+      <button aria-label="Contact" class="a-button -icon o-header_whatsappButton -bgpink-2 -clrgreen -md" id="js-contact-btn" onclick="window.location.href='mailto:hello@yovan.dev'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+          <polyline points="22,6 12,13 2,6" />
+        </svg>
+      </button>
+    </header>
+
+    <!-- Overlay Menu -->
+    <div aria-hidden="true" class="o-menu -clrwhite" id="js-menu-overlay">
+      <div class="o-menu_overlay" id="js-menu-overlay-bg" onclick="document.body.classList.remove('-isMenuOpen'); const overlay = document.getElementById('js-menu-overlay'); if (overlay) overlay.setAttribute('aria-hidden', 'true');"></div>
+      <div class="o-menu_leftPanel">
+        <div class="o-menu_leftWrapper -bggreen">
+          <ul class="o-menu_menu">
+            <li class="o-menu_item"><a class="tx-menu tx-upp" href="/" style="--delay: 140ms" onclick="document.body.classList.remove('-isMenuOpen'); const overlay = document.getElementById('js-menu-overlay'); if (overlay) overlay.setAttribute('aria-hidden', 'true');">Home</a></li>
+            <li class="o-menu_item"><a class="tx-menu tx-upp" href="/about" style="--delay: 180ms" onclick="document.body.classList.remove('-isMenuOpen'); const overlay = document.getElementById('js-menu-overlay'); if (overlay) overlay.setAttribute('aria-hidden', 'true');">About</a></li>
+            <li class="o-menu_item"><a class="tx-menu tx-upp" href="/#expertises" style="--delay: 220ms" data-menu-anchor onclick="document.body.classList.remove('-isMenuOpen'); const overlay = document.getElementById('js-menu-overlay'); if (overlay) overlay.setAttribute('aria-hidden', 'true');">Expertises</a></li>
+            <li class="o-menu_item"><a class="tx-menu tx-upp" href="/#faq" style="--delay: 260ms" data-menu-anchor onclick="document.body.classList.remove('-isMenuOpen'); const overlay = document.getElementById('js-menu-overlay'); if (overlay) overlay.setAttribute('aria-hidden', 'true');">FAQ</a></li>
+            <li class="o-menu_item"><a class="tx-menu tx-upp" href="mailto:hello@yovan.dev" style="--delay: 300ms" onclick="document.body.classList.remove('-isMenuOpen'); const overlay = document.getElementById('js-menu-overlay'); if (overlay) overlay.setAttribute('aria-hidden', 'true');">Contact</a></li>
+          </ul>
+          <div class="o-menu_leftBottom">
+            <div style="display: flex; gap: 2.4rem;">
+              <a class="tx-l link-underline" href="https://github.com" target="_blank" style="color: var(--color-white)">GitHub</a>
+              <a class="tx-l link-underline" href="https://linkedin.com" target="_blank" style="color: var(--color-white)">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Page Wrapper -->
+    <slot />
+
+    <!-- Global Client Script -->
+    <script>
+      function setupAnimations() {
+        // Page loader trigger
+        const loader = document.getElementById('js-loader');
+        if (loader && !loader.classList.contains('is-loaded')) {
+          document.documentElement.classList.add('is-loading');
+          setTimeout(() => {
+            loader.classList.add('is-drawing');
+          }, 100);
+
+          setTimeout(() => {
+            loader.classList.add('is-loaded');
+            document.documentElement.classList.remove('is-loading');
+            document.documentElement.classList.add('-once');
+            setTimeout(() => {
+              loader.style.display = 'none';
+            }, 1000);
+          }, 2400);
+        } else {
+          document.documentElement.classList.add('-once');
+        }
+
+        // Section background color transitions on scroll
+        const sections = document.querySelectorAll('[data-color]');
+        const colorObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const color = entry.target.getAttribute('data-color');
+              if (color) {
+                if (color === 'white') {
+                  const hasPinkTheme = document.documentElement.classList.contains('-pink');
+                  document.documentElement.style.setProperty('--theme-bg', 'var(--color-white)');
+                  document.documentElement.style.setProperty('--theme-text', hasPinkTheme ? 'var(--color-pink-1)' : 'var(--color-green)');
+                } else if (color === 'pink-1') {
+                  document.documentElement.style.setProperty('--theme-bg', 'var(--color-pink-1)');
+                  document.documentElement.style.setProperty('--theme-text', 'var(--color-white)');
+                } else if (color === 'pink-3') {
+                  document.documentElement.style.setProperty('--theme-bg', 'var(--color-pink-3)');
+                  document.documentElement.style.setProperty('--theme-text', 'var(--color-green)');
+                } else if (color === 'gray') {
+                  const hasPinkTheme = document.documentElement.classList.contains('-pink');
+                  document.documentElement.style.setProperty('--theme-bg', 'var(--color-gray)');
+                  document.documentElement.style.setProperty('--theme-text', hasPinkTheme ? 'var(--color-pink-1)' : 'var(--color-green)');
+                } else if (color === 'black') {
+                  document.documentElement.style.setProperty('--theme-bg', 'var(--color-black)');
+                  document.documentElement.style.setProperty('--theme-text', 'var(--color-white)');
+                } else {
+                  document.documentElement.style.setProperty('--theme-bg', color);
+                  document.documentElement.style.setProperty('--theme-text', 'var(--color-white)');
+                }
+              }
+            }
+          });
+        }, {
+          rootMargin: '-45% 0px -45% 0px'
+        });
+        sections.forEach(s => colorObserver.observe(s));
+
+        // Scroll reveals
+        const revealElements = document.querySelectorAll('[data-scroll]');
+        const revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-in-view');
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Custom mouse follower cursor
+        const cursor = document.getElementById('js-cursor');
+        if (cursor) {
+          if (!cursor.dataset.listenerAttached) {
+            document.addEventListener('mousemove', (e) => {
+              cursor.style.left = e.clientX + 'px';
+              cursor.style.top = e.clientY + 'px';
+            });
+            cursor.dataset.listenerAttached = 'true';
+          }
+          
+          document.querySelectorAll('a, button, [data-interactive]').forEach(el => {
+            const htmlEl = el as HTMLElement;
+            if (!htmlEl.dataset.listenerAttached) {
+              htmlEl.addEventListener('mouseenter', () => cursor.classList.add('is-hovered'));
+              htmlEl.addEventListener('mouseleave', () => cursor.classList.remove('is-hovered'));
+              htmlEl.dataset.listenerAttached = 'true';
+            }
+          });
+        }
+
+        // Menu toggle is handled by inline onclick handlers in the HTML markup for robust view-transition compatibility.
+      }
+
+      // Run on first load
+      setupAnimations();
+
+      // Re-run setup on Astro page transitions
+      document.addEventListener('astro:page-load', () => {
+        setupAnimations();
+        // Hide loader on subpage navigation immediately
+        const loader = document.getElementById('js-loader');
+        if (loader && window.location.pathname !== '/') {
+          loader.style.display = 'none';
+        }
+      });
+    </script>
+  </body>
+</html>

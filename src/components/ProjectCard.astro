@@ -1,0 +1,57 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image: string;
+  slug: string;
+  tags: string[];
+  year: string;
+  gridClass?: string;
+}
+
+const { title, description, image, slug, tags, year, gridClass = "col-span-12" } = Astro.props;
+---
+
+<div class={`group flex flex-col border border-black/15 rounded-md p-4 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.08)] ${gridClass}`}>
+  
+  <!-- Image Container -->
+  <a href={`/projects/${slug}`} class="block w-full overflow-hidden border border-charcoal-black aspect-[4/3] relative bg-charcoal-black">
+    <img 
+      src={image} 
+      alt={title} 
+      loading="lazy"
+      class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-105"
+    />
+  </a>
+
+  <!-- Text & Metadata Details -->
+  <div class="mt-5 flex flex-col h-full justify-between gap-4">
+    
+    <div>
+      <div class="flex justify-between items-start mb-2">
+        <a href={`/projects/${slug}`} class="inline-block">
+          <h3 class="font-display font-black text-2xl text-charcoal-black uppercase tracking-wide group-hover:text-accent-500 transition-colors duration-200">
+            {title}
+          </h3>
+        </a>
+        <span class="font-mono text-[0.8rem] font-bold text-charcoal-mid border border-black/10 rounded-sm px-2 py-1 bg-black/5">
+          {year}
+        </span>
+      </div>
+      
+      <p class="font-sans text-charcoal-dim text-[0.95rem] leading-relaxed">
+        {description}
+      </p>
+    </div>
+
+    <!-- Tags Row -->
+    <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-dashed border-gray-300">
+      {tags.map((tag) => (
+        <span class="font-mono text-[0.7rem] uppercase tracking-[0.1em] px-2 py-1 border border-black/10 rounded-sm bg-black/5 hover:bg-black/10 text-charcoal-black transition-colors duration-200">
+          {tag}
+        </span>
+      ))}
+    </div>
+    
+  </div>
+</div>

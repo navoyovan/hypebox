@@ -1,0 +1,85 @@
+---
+// Navbar.astro
+---
+
+<nav
+  class="fixed top-0 left-0 w-full z-50 bg-milky-white/90 backdrop-blur-md border-b border-black/10 transition-all duration-300"
+>
+  <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <!-- Logo Anchor (Invisible) -->
+    <a
+      id="navbar-logo"
+      href="/"
+      class="font-display font-black text-2xl tracking-[0.05em] uppercase text-transparent pointer-events-none select-none"
+    >
+      Hype-box
+    </a>
+
+    <!-- Nav Links (Desktop) -->
+    <div class="hidden md:flex items-center gap-10">
+      <a
+        href="#features"
+        class="font-sans font-medium text-[0.95rem] text-charcoal-dim hover:text-charcoal-black transition-colors duration-200"
+      >
+        Features
+      </a>
+      <a
+        href="#pricing"
+        class="font-sans font-medium text-[0.95rem] text-charcoal-dim hover:text-charcoal-black transition-colors duration-200"
+      >
+        Pricing
+      </a>
+      <a
+        href="#about"
+        class="font-sans font-medium text-[0.95rem] text-charcoal-dim hover:text-charcoal-black transition-colors duration-200"
+      >
+        About
+      </a>
+      <a
+        href="#documentation"
+        class="font-sans font-medium text-[0.95rem] text-charcoal-dim hover:text-charcoal-black transition-colors duration-200"
+      >
+        Documentation
+      </a>
+      <a
+        href="#contact"
+        class="font-sans font-medium text-[0.95rem] text-charcoal-dim hover:text-charcoal-black transition-colors duration-200"
+      >
+        Contact
+      </a>
+    </div>
+
+    <!-- Right Side CTA / Status -->
+    <div class="flex items-center gap-6">
+      <!-- Language Switcher -->
+      <button
+        class="hidden sm:flex items-center gap-1.5 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-charcoal-dim hover:text-charcoal-black transition-colors duration-200 cursor-pointer"
+      >
+        EN
+        <svg
+          class="w-3 h-3"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          ><path
+            stroke-linecap="square"
+            stroke-linejoin="miter"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"></path></svg
+        >
+      </button>
+
+      <!-- Mobile Menu Button -->
+      <button
+        class="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-[5px] cursor-pointer group"
+      >
+        <span
+          class="w-5 h-[1.5px] bg-charcoal-black transition-transform duration-300 group-hover:-translate-y-[1px]"
+        ></span>
+        <span
+          class="w-5 h-[1.5px] bg-charcoal-black transition-transform duration-300 group-hover:translate-y-[1px]"
+        ></span>
+      </button>
+    </div>
+  </div>
+</nav>

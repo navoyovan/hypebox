@@ -1,0 +1,65 @@
+---
+// Nav.astro — full-screen overlay hamburger menu
+---
+
+<!-- Hamburger trigger -->
+<button
+  id="hamburger"
+  class="hamburger"
+  aria-label="Open navigation"
+  aria-expanded="false"
+  aria-controls="nav-overlay"
+>
+  <span class="hamburger__line"></span>
+  <span class="hamburger__line"></span>
+  <span class="hamburger__line"></span>
+</button>
+
+<!-- Full-screen nav overlay -->
+<nav id="nav-overlay" class="nav-overlay" aria-hidden="true">
+  <div style="margin-bottom: 4rem;">
+    <span class="tx-label" style="color: #5a5a5a;">Navigation</span>
+  </div>
+
+  <a href="/" class="nav-overlay__link" data-nav-link>Work</a>
+  <a href="/about" class="nav-overlay__link" data-nav-link>About</a>
+  <a href="mailto:hello@yovan.dev" class="nav-overlay__link" data-nav-link>Contact</a>
+
+  <div style="margin-top: auto; padding-top: 4rem; display: flex; gap: 2.4rem;">
+    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="tx-label link-underline" style="color: #5a5a5a;">GitHub</a>
+    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="tx-label link-underline" style="color: #5a5a5a;">LinkedIn</a>
+    <a href="https://read.cv" target="_blank" rel="noopener noreferrer" class="tx-label link-underline" style="color: #5a5a5a;">Read.cv</a>
+  </div>
+</nav>
+
+<script>
+  const hamburger = document.getElementById('hamburger')!;
+  const overlay = document.getElementById('nav-overlay')!;
+  const navLinks = document.querySelectorAll('[data-nav-link]');
+
+  function openMenu() {
+    hamburger.classList.add('is-open');
+    overlay.classList.add('is-open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    hamburger.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.contains('is-open') ? closeMenu() : openMenu();
+  });
+
+  navLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+</script>
