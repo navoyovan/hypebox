@@ -21,7 +21,7 @@ const ENABLE_INTRO_ANIMATION = true;
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth overflow-x-hidden w-full">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -59,11 +59,12 @@ const ENABLE_INTRO_ANIMATION = true;
 	<body
 		data-intro-enabled={ENABLE_INTRO_ANIMATION}
 		class:list={[
-			"bg-milky-white text-charcoal-black min-h-screen",
+			"bg-milky-white text-charcoal-black min-h-screen overflow-x-hidden w-full relative",
 			{ "overflow-hidden": ENABLE_INTRO_ANIMATION },
 		]}
 	>
-		<Navbar />
+		<div class="flex flex-col w-full overflow-x-hidden relative">
+			<Navbar />
 
 		<!-- 0. Starfield Section -->
 		<section
@@ -92,7 +93,7 @@ const ENABLE_INTRO_ANIMATION = true;
 					<h1
 						id="hero-h1"
 						class:list={[
-							"font-display font-black text-[clamp(4rem,10vw,8rem)] tracking-tight uppercase text-charcoal-black m-0 leading-none inline-block",
+							"font-display font-black text-[clamp(3rem,12vw,8rem)] tracking-tight uppercase text-charcoal-black m-0 leading-none inline-block whitespace-nowrap",
 							{
 								"animate-title-entrance":
 									ENABLE_INTRO_ANIMATION,
@@ -122,7 +123,7 @@ const ENABLE_INTRO_ANIMATION = true;
 		}
 
 		<!-- 1. Hero Section -->
-		<section class="relative max-w-7xl mx-auto px-6 pt-24 pb-32">
+		<section class="relative max-w-7xl mx-auto px-6 pt-16 pb-20 lg:pt-24 lg:pb-32">
 			<div
 				class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center"
 			>
@@ -241,8 +242,8 @@ const ENABLE_INTRO_ANIMATION = true;
 			</div>
 		</section>
 
-		<section id="features" class="max-w-7xl mx-auto px-6 py-32">
-			<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+		<section id="features" class="max-w-7xl mx-auto px-6 py-16 lg:py-32">
+			<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
 				<div class="lg:col-span-5 lg:sticky lg:top-32">
 					<h2
 						class="font-display font-black text-[clamp(2.5rem,4vw,3.5rem)] leading-none tracking-[-0.03em] uppercase"
@@ -311,7 +312,7 @@ const ENABLE_INTRO_ANIMATION = true;
 			</div>
 
 			<!-- 5B. Additional Features Section -->
-			<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+			<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start mt-16 lg:mt-0">
 				<div class="lg:col-span-5 lg:sticky lg:top-32">
 					<h2
 						class="font-display font-black text-[clamp(2.5rem,4vw,3.5rem)] leading-none tracking-[-0.03em] uppercase"
@@ -423,10 +424,10 @@ const ENABLE_INTRO_ANIMATION = true;
 
 		<!-- Right: Copy (40%) -->
 		<div
-			class="w-full md:w-[40%] flex flex-col justify-center p-12 md:p-20 bg-black/5"
+			class="w-full md:w-[40%] flex flex-col justify-center p-8 md:p-20 bg-black/5 overflow-hidden"
 		>
 			<h2
-				class="font-display font-black text-4xl uppercase tracking-tighter text-charcoal-black mb-6 leading-[1.1]"
+				class="font-display font-black text-[clamp(2rem,8vw,2.25rem)] md:text-4xl uppercase tracking-tighter text-charcoal-black mb-6 leading-[1.1] break-words hyphens-auto"
 			>
 				Infinite <br /> Possibilities
 			</h2>
@@ -449,10 +450,10 @@ const ENABLE_INTRO_ANIMATION = true;
 	<!-- 4. Partners / Integrations -->
 	<section
 		id="pricing"
-		class="max-w-7xl mx-auto px-6 py-32 border-b border-dashed border-gray-300"
+		class="max-w-7xl mx-auto px-6 py-16 lg:py-32 border-b border-dashed border-gray-300"
 	>
 		<!-- Integrations Grid -->
-		<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+		<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
 			<div class="lg:col-span-3">
 				<h2
 					class="font-display font-black text-3xl uppercase tracking-wide"
@@ -599,7 +600,7 @@ const ENABLE_INTRO_ANIMATION = true;
 	<!-- 6. How it Works -->
 	<section
 		id="documentation"
-		class="max-w-7xl mx-auto px-6 py-32 border-t border-dashed border-gray-300"
+		class="max-w-7xl mx-auto px-6 py-16 lg:py-32 border-t border-dashed border-gray-300"
 	>
 		<div class="mb-16">
 			<h2
@@ -654,13 +655,13 @@ const ENABLE_INTRO_ANIMATION = true;
 	<!-- 7. Use Cases -->
 	<section
 		id="about"
-		class="border-t border-dashed border-gray-300 bg-black/5 py-32"
+		class="border-t border-dashed border-gray-300 bg-black/5 py-16 lg:py-32"
 	>
 		<div class="max-w-7xl mx-auto px-6">
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
 				<div>
 					<h2
-						class="font-display font-black text-4xl uppercase tracking-tighter text-charcoal-black mb-6 leading-[1.1]"
+						class="font-display font-black text-[clamp(2rem,8vw,2.25rem)] md:text-4xl uppercase tracking-tighter text-charcoal-black mb-6 leading-[1.1] break-words"
 					>
 						Dibangun untuk<br />skala bisnis Anda.
 					</h2>
@@ -735,7 +736,7 @@ const ENABLE_INTRO_ANIMATION = true;
 	<!-- 8. Final CTA -->
 	<section
 		id="contact"
-		class="py-32 border-t border-dashed border-gray-300 text-center px-6"
+		class="py-16 lg:py-32 border-t border-dashed border-gray-300 text-center px-6"
 	>
 		<h2
 			class="font-display font-black text-[clamp(2.5rem,5vw,5rem)] uppercase tracking-tighter text-charcoal-black leading-[0.9] mb-8"
@@ -791,6 +792,7 @@ const ENABLE_INTRO_ANIMATION = true;
 			</a>
 		</div>
 	</footer>
+	</div> <!-- End of overflow-x-hidden wrapper -->
 
 	<!-- Dev Position absolute button (requested earlier) -->
 	{
