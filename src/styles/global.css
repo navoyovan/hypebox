@@ -25,8 +25,9 @@
   --animate-cinematic-top: cinematic-top 1.2s cubic-bezier(0.45, 0, 0.55, 1) forwards;
   --animate-cinematic-bottom: cinematic-bottom 1.2s cubic-bezier(0.45, 0, 0.55, 1) forwards;
   --animate-title-entrance: title-entrance 1.6s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+}
 
-  @keyframes pulse-accent-scale {
+@keyframes pulse-accent-scale {
     0%, 100% {
       box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent-500) 50%, transparent);
     }
@@ -74,7 +75,7 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
   --ease-foudre: cubic-bezier(0.86, 0, 0.07, 1);
-}
+
 
 @utility shake-error {
   animation: buttonShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both !important;
@@ -92,21 +93,23 @@
   }
 
   html {
-    background-color: var(--color-milky-white);
-    color: var(--color-charcoal-black);
-    font-family: var(--font-sans);
+    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    scroll-behavior: smooth;
-    transition: background-color 0.8s var(--ease-foudre), color 0.8s var(--ease-foudre);
+    background-color: var(--color-milky-white);
+    color: var(--color-charcoal-black);
+    overflow-x: hidden;
   }
 
-  ::selection {
-    background-color: var(--color-charcoal-black);
-    color: var(--color-milky-white);
+  body {
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    min-height: 100vh;
   }
-  ::-moz-selection {
-    background-color: var(--color-charcoal-black);
-    color: var(--color-milky-white);
+
+  /* Custom Selection */
+  ::selection {
+    background: var(--color-accent-500);
+    color: white;
   }
 }
